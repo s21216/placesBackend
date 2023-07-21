@@ -1,0 +1,5 @@
+<Configuration>
+    <Logger name="org.hibernate" level="debug" additivity="false">
+        <AppenderRef ref="Console"/>
+    </Logger>
+</Configuration>
