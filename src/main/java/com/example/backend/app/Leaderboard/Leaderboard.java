@@ -1,6 +1,6 @@
-package com.example.backend.Leaderboard;
+package com.example.backend.app.Leaderboard;
 
-import com.example.backend.User.User;
+import com.example.backend.app.User.User;
 import jakarta.persistence.*;
 
 @Entity

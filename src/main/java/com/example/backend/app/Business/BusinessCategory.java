@@ -1,4 +1,4 @@
-package com.example.backend.Business;
+package com.example.backend.app.Business;
 
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;

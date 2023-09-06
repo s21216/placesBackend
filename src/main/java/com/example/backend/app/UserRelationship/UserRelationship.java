@@ -1,6 +1,6 @@
-package com.example.backend.UserRelationship;
+package com.example.backend.app.UserRelationship;
 
-import com.example.backend.User.User;
+import com.example.backend.app.User.User;
 import jakarta.persistence.*;
 
 @Entity

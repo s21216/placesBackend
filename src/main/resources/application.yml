@@ -3,8 +3,8 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/mas
-    username: tomaszlethanh
+    url: jdbc:postgresql://localhost:5434/postgres
+    username: postgres
     password: postgres
   jpa:
     hibernate:
@@ -16,6 +16,12 @@ spring:
       show-sql: true
   main:
     web-application-type: servlet
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com
+          issuer-uri: https://securetoken.google.com/placesandspaces-cbee6
 
 logging:
   level:

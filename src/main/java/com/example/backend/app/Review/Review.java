@@ -1,7 +1,7 @@
-package com.example.backend.Review;
+package com.example.backend.app.Review;
 
-import com.example.backend.Business.Business;
-import com.example.backend.User.User;
+import com.example.backend.app.Business.Business;
+import com.example.backend.app.User.User;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 

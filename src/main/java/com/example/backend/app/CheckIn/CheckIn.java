@@ -1,4 +1,4 @@
-package com.example.backend.CheckIn;
+package com.example.backend.app.CheckIn;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
