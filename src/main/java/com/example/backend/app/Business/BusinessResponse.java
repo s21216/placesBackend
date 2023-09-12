@@ -1,13 +1,13 @@
-package com.example.backend.app.User;
+package com.example.backend.app.Business;
 
 import com.example.backend.app.Auth.Role;
 
 import java.time.LocalDate;
 
-public record UserResponse(String firebaseUid,
+public record BusinessResponse(String firebaseUid,
                            String email,
-                           String username,
-                           String fullName,
+                           String phoneNumber,
+                           String name,
                            String profilePictureUrl,
                            LocalDate joinDate,
                            Role role) {
