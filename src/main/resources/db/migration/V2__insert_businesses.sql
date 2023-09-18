@@ -1,0 +1,10 @@
+INSERT INTO business VALUES (1, 'hlrNMzmkYchokxFlLgwJrBqPVt92', 'BAR RASCAL', null, 'rascal@rascal.com', null, 'Moliera 6', '00-076', 'Warsaw', NULL, NULL, 2, 8.0, 52.2442, 21.0117, '2023-09-18');
+INSERT INTO business VALUES (2, 'z82ya85oYeTH2RF42b2xvGWTMm33', 'Pizzaiolo', null, 'pizzaiolo@pizzaiolo.com', null, 'Krucza 16/22', '00-526', 'Warsaw', NULL, NULL, 2, 8.0, 52.2258, 21.0192, '2023-09-18');
+INSERT INTO business VALUES (3, '3PWYIeqNmkeld0zqBdOLOt7Uqus1', 'Señor Lucas taquería', null, 'senorlucas@senorlucas.com', null, 'Poznańska 26', '00-684', 'Warsaw', NULL, NULL, 2, 8.0, 52.2268, 21.0112, '2023-09-18');
+INSERT INTO business VALUES (4, 'ZF0etDfSgoSSKO7ldRkla80UPMG2', 'MOD', null, 'mod@mod.com', null, 'Oleandrów 8', '00-629', 'Warsaw', NULL, NULL, 2, 8.0, 52.2167, 21.0179, '2023-09-18');
+INSERT INTO business VALUES (5, 'bFGBxxOBQbW2k3pksjFaCpueq963', 'POLLYPIZZA NEAPOLITAN', null, 'pollypizza@pollypizza.com', null, 'Puławska 24', '02-512', 'Warsaw', NULL, NULL, 2, 8.0, 52.2069, 21.0219, '2023-09-18');
+INSERT INTO business VALUES (6, 'bFGBxxOBQbW2k3pksjFaCpueq963', 'Efes', null, 'efes@efes.com', null, 'Niepodległości 80', '02-626', 'Warsaw', NULL, NULL, 2, 8.0, 52.1963, 21.0140, '2023-09-18');
+INSERT INTO business VALUES (7, 's69plW7XqiXzJKEjDZROIsQonyM2', 'Izumi Sushi Biały Kamień', null, 'izumisushi@izumisushi.com', null, 'Biały Kamień 4', '02-593', 'Warsaw', NULL, NULL, 3, 8.0, 52.2057, 20.9973, '2023-09-18');
+INSERT INTO business VALUES (8, 'x329m1TruxOgY7aoBzAdiwCVd4p1', 'doskoi Kraków - Japanese Food', null, 'doskoi@doskoi.com', null, 'Karmelicka 54/2', '31-128', 'Cracow', NULL, NULL, 1, 8.0, 50.0677, 19.9279, '2023-09-18');
+INSERT INTO business VALUES (9, 'Xr9tE7j42KW6Nb202sMie9WBnck1', 'Czarna Kaczka', null, 'czarnakaczka@czarnakaczka.com', null, 'Poselska 22', '31-002', 'Cracow', NULL, NULL, 3, 8.0, 50.0582, 19.9392, '2023-09-18');
+INSERT INTO business VALUES (10, 'RLGrMxsWzJOU4tGb90CuozLZVOs2', 'happa to mame', null, 'happa@happa.com', null, 'Hoża 43/49', '00-681', 'Warsaw', NULL, NULL, 3, 8.0, 52.2255, 21.0114, '2023-09-18');

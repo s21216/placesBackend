@@ -23,15 +23,18 @@ public class Business {
     private String email;
     private String phoneNumber;
     private String address;
+    private String zipCode;
     private String city;
     private String district;
-    private String category;
     private String cuisine;
     private Integer priceRange;
     private Double score;
     private Double longitude;
     private Double latitude;
     private LocalDate joinDate;
+
+    @OneToMany(mappedBy = "business")
+    private List<BusinessCategory> categories;
 
     @OneToMany(mappedBy = "business")
     private List<Review> reviews;
