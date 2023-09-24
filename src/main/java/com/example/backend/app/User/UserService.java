@@ -6,8 +6,6 @@ import com.google.firebase.auth.FirebaseToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -20,8 +18,7 @@ public class UserService {
         return user;
     }
 
-    public User findByFirebaseToken(String firebaseToken) throws FirebaseAuthException {
-        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
-        return userRepository.findUserByFirebaseUid(decodedToken.getUid()).orElse(null);
+    public User findByFirebaseUid(String firebaseUid) throws FirebaseAuthException {
+        return userRepository.findUserByFirebaseUid(firebaseUid).orElse(null);
     }
 }

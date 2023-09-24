@@ -5,39 +5,77 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.search.mapper.pojo.bridge.builtin.annotation.GeoPointBinding;
+import org.hibernate.search.mapper.pojo.bridge.builtin.annotation.Latitude;
+import org.hibernate.search.mapper.pojo.bridge.builtin.annotation.Longitude;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-@NoArgsConstructor
 @Entity
+@Indexed
+@GeoPointBinding(fieldName = "location")
+@NoArgsConstructor
 @Getter
 @Setter
 public class Business {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String firebaseUid;
+
+    @FullTextField
     private String name;
+
     private String profilePictureUrl;
+
     private String email;
+
     private String phoneNumber;
+
     private String address;
+
     private String zipCode;
-    private String city;
+
     private String district;
+
+    private String city;
+
+    private String country;
+
+    @FullTextField
+    private String description;
+
     private String cuisine;
-    private Integer priceRange;
+
+
+    @Enumerated(EnumType.STRING)
+    private Cost cost;
+
     private Double score;
-    private Double longitude;
-    private Double latitude;
+
+    @Longitude
+    private Double locationLongitude;
+
+    @Latitude
+    private Double locationLatitude;
+
     private LocalDate joinDate;
 
-    @OneToMany(mappedBy = "business")
-    private List<BusinessCategory> categories;
+    @ManyToMany
+    @JoinTable(
+            name = "business_category",
+            joinColumns = @JoinColumn(name = "business_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Category> categories = new HashSet<>();
 
     @OneToMany(mappedBy = "business")
-    private List<Review> reviews;
+    private Set<Review> reviews = new HashSet<>();
 
     public Business(String email, String name, String phoneNumber, String firebaseUid) {
         this.email = email;
