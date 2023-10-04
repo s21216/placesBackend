@@ -49,7 +49,7 @@ public class BusinessController {
         return businessService.autocomplete(searchQuery);
     }
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     SearchResponse<BusinessResponse> searchBusinessesFuzzy(@RequestParam String searchQuery, @RequestBody SearchRequest request) {
         List<Business> businesses = businessService.searchFuzzy(searchQuery, request);
         List<BusinessResponse> businessList = businesses.stream().map(business -> new BusinessResponse(

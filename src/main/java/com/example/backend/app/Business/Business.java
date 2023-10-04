@@ -9,7 +9,9 @@ import org.hibernate.search.mapper.pojo.bridge.builtin.annotation.GeoPointBindin
 import org.hibernate.search.mapper.pojo.bridge.builtin.annotation.Latitude;
 import org.hibernate.search.mapper.pojo.bridge.builtin.annotation.Longitude;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -54,6 +56,7 @@ public class Business {
 
 
     @Enumerated(EnumType.STRING)
+    @GenericField
     private Cost cost;
 
     private Double score;
@@ -72,6 +75,7 @@ public class Business {
             joinColumns = @JoinColumn(name = "business_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
+    @IndexedEmbedded
     private Set<Category> categories = new HashSet<>();
 
     @OneToMany(mappedBy = "business")

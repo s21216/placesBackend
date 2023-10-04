@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseToken;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.search.engine.spatial.DistanceUnit;
+import org.hibernate.search.engine.spatial.GeoPoint;
 import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.massindexing.MassIndexer;
 import org.hibernate.search.mapper.orm.session.SearchSession;
@@ -58,7 +59,7 @@ public class BusinessService {
                                     .matching(searchQuery)
                                     .fuzzy());
                             root.add(f.spatial().within().field("location")
-                                    .circle(filters.coordinates(), filters.distance(), DistanceUnit.KILOMETERS));
+                                    .circle(GeoPoint.of(filters.latitude(), filters.longitude()), filters.distance(), DistanceUnit.KILOMETERS));
 
                             if (filters.cost() != null) {
                                 root.add(f.match().field("cost")
