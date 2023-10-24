@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://db.fluxpognlnculkevzhko.supabase.co:5432/postgres
+    username: postgres
+    password: ${DB_PASSWORD}
+  flyway:
+    user: postgres
+    password: ${DB_PASSWORD}
