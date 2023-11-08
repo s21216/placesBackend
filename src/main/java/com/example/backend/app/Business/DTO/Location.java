@@ -6,6 +6,6 @@ public record Location(
         String zipCode,
         String city,
         String district,
-        Double longitude,
-        Double latitude) {
+        Double latitude,
+        Double longitude) {
 }

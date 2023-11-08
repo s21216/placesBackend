@@ -22,8 +22,8 @@ CREATE TABLE business
     cuisine             VARCHAR(255),
     cost                VARCHAR(255),
     score               DOUBLE PRECISION,
-    location_longitude           DOUBLE PRECISION,
     location_latitude            DOUBLE PRECISION,
+    location_longitude           DOUBLE PRECISION,
     join_date           date,
     CONSTRAINT pk_business PRIMARY KEY (id)
 );

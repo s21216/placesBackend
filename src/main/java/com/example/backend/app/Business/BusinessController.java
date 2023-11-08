@@ -68,8 +68,8 @@ public class BusinessController {
                                 business.getZipCode(),
                                 business.getCity(),
                                 business.getDistrict(),
-                                business.getLocationLongitude(),
-                                business.getLocationLatitude()
+                                business.getLocationLatitude(),
+                                business.getLocationLongitude()
                         ),
                         business.getJoinDate(),
                         Role.BUSINESS

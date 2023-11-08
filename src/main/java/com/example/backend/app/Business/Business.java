@@ -61,11 +61,11 @@ public class Business {
 
     private Double score;
 
-    @Longitude
-    private Double locationLongitude;
-
     @Latitude
     private Double locationLatitude;
+
+    @Longitude
+    private Double locationLongitude;
 
     private LocalDate joinDate;
 
