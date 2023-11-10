@@ -19,7 +19,7 @@ CREATE TABLE business
     city                VARCHAR(255),
     country             VARCHAR(255),
     description         VARCHAR(255),
-    cuisine             VARCHAR(255),
+    type                VARCHAR(255),
     cost                VARCHAR(255),
     score               DOUBLE PRECISION,
     location_latitude            DOUBLE PRECISION,

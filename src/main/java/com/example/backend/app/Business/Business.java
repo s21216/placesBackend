@@ -52,7 +52,7 @@ public class Business {
     @FullTextField
     private String description;
 
-    private String cuisine;
+    private String type;
 
 
     @Enumerated(EnumType.STRING)

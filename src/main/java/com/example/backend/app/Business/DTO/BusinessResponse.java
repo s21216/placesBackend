@@ -1,9 +1,11 @@
 package com.example.backend.app.Business.DTO;
 
 import com.example.backend.app.Auth.Role;
+import com.example.backend.app.Business.Category;
 import com.example.backend.app.Business.Cost;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 public record BusinessResponse(
         String firebaseUid,
@@ -12,7 +14,9 @@ public record BusinessResponse(
         String phoneNumber,
         String profilePictureUrl,
         String description,
-        String cuisine,
+        String type,
+
+        Set<Category> categories,
         Cost cost,
         Double score,
         Location location,

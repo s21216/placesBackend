@@ -27,7 +27,8 @@ public class BusinessController {
                 business.getPhoneNumber(),
                 business.getProfilePictureUrl(),
                 business.getDescription(),
-                business.getCuisine(),
+                business.getType(),
+                business.getCategories(),
                 business.getCost(),
                 business.getScore(),
                 new Location(
@@ -59,7 +60,8 @@ public class BusinessController {
                         business.getPhoneNumber(),
                         business.getProfilePictureUrl(),
                         business.getDescription(),
-                        business.getCuisine(),
+                        business.getType(),
+                        business.getCategories(),
                         business.getCost(),
                         business.getScore(),
                         new Location(
