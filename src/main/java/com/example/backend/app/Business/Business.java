@@ -1,5 +1,6 @@
 package com.example.backend.app.Business;
 
+import com.example.backend.app.CheckIn.CheckIn;
 import com.example.backend.app.Review.Review;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class Business {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @FullTextField
     private String firebaseUid;
 
     @FullTextField
@@ -80,6 +82,9 @@ public class Business {
 
     @OneToMany(mappedBy = "business")
     private Set<Review> reviews = new HashSet<>();
+
+    @OneToMany(mappedBy = "business")
+    private Set<CheckIn> checkIns = new HashSet<>();
 
     public Business(String email, String name, String phoneNumber, String firebaseUid) {
         this.email = email;

@@ -1,5 +1,6 @@
 package com.example.backend.app.User;
 
+import com.example.backend.app.CheckIn.CheckIn;
 import com.example.backend.app.Review.Review;
 import com.example.backend.app.UserRelationship.UserRelationship;
 import jakarta.persistence.*;
@@ -24,6 +25,9 @@ public class User {
     private String fullName;
     private String profilePictureUrl;
     private LocalDate joinDate;
+
+    @OneToMany(mappedBy = "user")
+    private List<CheckIn> checkIns;
 
     @OneToMany(mappedBy = "user")
     private List<Review> reviews;

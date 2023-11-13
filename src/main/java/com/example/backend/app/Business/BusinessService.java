@@ -2,6 +2,8 @@ package com.example.backend.app.Business;
 
 import com.example.backend.app.Business.DTO.SearchFilters;
 import com.example.backend.app.Business.DTO.SearchRequest;
+import com.example.backend.app.CheckIn.CheckInRepository;
+import com.example.backend.app.User.UserRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -36,18 +38,6 @@ public class BusinessService {
         return businessRepository.findBusinessByFirebaseUid(firebaseUid).orElse(null);
     }
 
-    public List<Business> search(String searchQuery) {
-        SearchSession searchSession = Search.session(em);
-
-        var result = searchSession.search(Business.class)
-                .where(f -> f.match()
-                        .fields("name", "description")
-                        .matching(searchQuery)
-                ).fetch(20);
-
-        return result.hits();
-    }
-
     public List<Business> searchFuzzy(String searchQuery, SearchRequest request) {
         SearchSession searchSession = Search.session(em);
         SearchFilters filters = request.getFilters();
@@ -55,7 +45,7 @@ public class BusinessService {
         var result = searchSession.search(Business.class)
                 .where((f, root) -> {
                             root.add(f.match()
-                                    .fields("name", "categories.name", "description")
+                                    .fields("name", "categories.name")
                                     .matching(searchQuery)
                                     .fuzzy());
                             root.add(f.spatial().within().field("location")
@@ -78,7 +68,7 @@ public class BusinessService {
                 .where(f -> f.wildcard()
                         .field("name")
                         .matching(searchQuery + "*"))
-                .fetch(5);
+                .fetch(2);
 
         var categories = searchSession.search(Category.class)
                 .where(f -> f.wildcard()
