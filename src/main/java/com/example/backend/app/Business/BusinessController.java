@@ -4,8 +4,14 @@ import com.example.backend.app.Auth.Role;
 import com.example.backend.app.Business.DTO.BusinessResponse;
 import com.example.backend.app.Business.DTO.Location;
 import com.example.backend.app.Business.DTO.SearchRequest;
-import com.example.backend.app.Business.DTO.SearchResponse;
+import com.example.backend.helpers.PaginatedRequest;
+import com.example.backend.helpers.PaginatedResponse;
+import com.example.backend.app.Review.Review;
+import com.example.backend.app.Review.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +22,7 @@ import java.util.List;
 public class BusinessController {
 
     private final BusinessService businessService;
+    private final ReviewService reviewService;
 
     @GetMapping("/{businessId}")
     BusinessResponse getBusinessById(@PathVariable String businessId) {
@@ -45,13 +52,27 @@ public class BusinessController {
         );
     }
 
+    @GetMapping("{businessId}/reviews")
+    PaginatedResponse<Review> getReviews(@PathVariable String businessId, @RequestBody PaginatedRequest request) {
+        Pageable pageable = PageRequest.of(request.getPageNumber(), request.getPageSize());
+        Page<Review> reviewPage = reviewService.getReviewsByBusinessId(businessId, pageable);
+        return new PaginatedResponse<>(
+            reviewPage.getNumber(),
+                reviewPage.getSize(),
+                reviewPage.getNumberOfElements(),
+                reviewPage.getTotalElements(),
+                reviewPage.getTotalPages(),
+                reviewPage.getContent()
+        );
+    }
+
     @GetMapping("/search/autocomplete")
     List<String> autocomplete(@RequestParam String searchQuery) {
         return businessService.autocomplete(searchQuery);
     }
 
     @PostMapping("/search")
-    SearchResponse<BusinessResponse> searchBusinessesFuzzy(@RequestParam String searchQuery, @RequestBody SearchRequest request) {
+    PaginatedResponse<BusinessResponse> searchBusinessesFuzzy(@RequestParam String searchQuery, @RequestBody SearchRequest request) {
         List<Business> businesses = businessService.searchFuzzy(searchQuery, request);
         List<BusinessResponse> businessList = businesses.stream().map(business -> new BusinessResponse(
                         business.getFirebaseUid(),
@@ -78,7 +99,13 @@ public class BusinessController {
                 )
         ).toList();
 
-        return new SearchResponse<>(request.getPageSize(), request.getPageNumber(), businessList);
+        return new PaginatedResponse<>(
+                request.getPageSize(),
+                request.getPageNumber(),
+                businessList.size(),
+                null,
+                null,
+                businessList);
     }
 
     @GetMapping("/reindex")

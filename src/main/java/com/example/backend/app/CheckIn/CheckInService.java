@@ -4,6 +4,7 @@ import com.example.backend.app.Business.Business;
 import com.example.backend.app.Business.BusinessRepository;
 import com.example.backend.app.User.User;
 import com.example.backend.app.User.UserRepository;
+import com.example.backend.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.search.engine.spatial.DistanceUnit;
@@ -33,9 +34,12 @@ public class CheckInService {
                                     .circle(GeoPoint.of(latitude, longitude), 200, DistanceUnit.METERS));
                         }
                 ).fetchSingleHit();
-
+        if (business.isEmpty()) {
+            throw new NotFoundException("Too far from business");
+        }
         User user = userRepository.findUserByFirebaseUid(userId).orElseThrow();
-        return new CheckIn(user, business.orElseThrow());
+        CheckIn checkIn = new CheckIn(user, business.orElseThrow());
+        return checkInRepository.save(checkIn);
     }
 
     public List<CheckIn> getVisitedByUser(String userId) {
