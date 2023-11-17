@@ -15,7 +15,7 @@ public class ReviewController {
 
     @PostMapping
     Review createReview(@RequestHeader("Authorization") String authorizationHeader, @RequestBody CreateReviewRequest request) throws FirebaseAuthException {
-        return reviewService.createReview(Authentication.extractToken(authorizationHeader), request.businessId(), request.rating(), request.description());
+        return reviewService.createReview(Authentication.extractToken(authorizationHeader), request.businessId(), request.score(), request.description());
     }
 
     @GetMapping("{reviewId}")

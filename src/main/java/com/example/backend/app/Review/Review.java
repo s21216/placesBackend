@@ -21,7 +21,7 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer rating;
+    private Integer score;
     private String description;
     private Instant createdAt;
 
@@ -34,7 +34,7 @@ public class Review {
     private Business business;
 
     public Review(User user, Business business, Integer rating, String description) {
-        this.rating = rating;
+        this.score = rating;
         this.description = description;
         this.user = user;
         this.business = business;

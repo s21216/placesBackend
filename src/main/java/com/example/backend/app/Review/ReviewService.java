@@ -45,7 +45,7 @@ public class ReviewService {
         if (!Objects.equals(userId, review.getUser().getFirebaseUid())) {
             throw new UnauthorizedException("Unauthorized");
         }
-        review.setRating(request.rating());
+        review.setScore(request.score());
         review.setDescription(request.description());
         return reviewRepository.save(review);
     }

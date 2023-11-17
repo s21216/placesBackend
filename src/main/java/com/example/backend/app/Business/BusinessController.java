@@ -52,7 +52,7 @@ public class BusinessController {
         );
     }
 
-    @GetMapping("{businessId}/reviews")
+    @PostMapping("{businessId}/reviews")
     PaginatedResponse<Review> getReviews(@PathVariable String businessId, @RequestBody PaginatedRequest request) {
         Pageable pageable = PageRequest.of(request.getPageNumber(), request.getPageSize());
         Page<Review> reviewPage = reviewService.getReviewsByBusinessId(businessId, pageable);
