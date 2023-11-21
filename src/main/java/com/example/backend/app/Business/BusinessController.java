@@ -4,6 +4,8 @@ import com.example.backend.app.Auth.Role;
 import com.example.backend.app.Business.DTO.BusinessResponse;
 import com.example.backend.app.Business.DTO.Location;
 import com.example.backend.app.Business.DTO.SearchRequest;
+import com.example.backend.app.Review.DTO.PostOwner;
+import com.example.backend.app.Review.DTO.ReviewResponse;
 import com.example.backend.helpers.PaginatedRequest;
 import com.example.backend.helpers.PaginatedResponse;
 import com.example.backend.app.Review.Review;
@@ -52,17 +54,26 @@ public class BusinessController {
         );
     }
 
-    @GetMapping("{businessId}/reviews")
-    PaginatedResponse<Review> getReviews(@PathVariable String businessId, @RequestBody PaginatedRequest request) {
+    @PostMapping("{businessId}/reviews")
+    PaginatedResponse<ReviewResponse> getReviews(@PathVariable String businessId, @RequestBody PaginatedRequest request) {
         Pageable pageable = PageRequest.of(request.getPageNumber(), request.getPageSize());
         Page<Review> reviewPage = reviewService.getReviewsByBusinessId(businessId, pageable);
         return new PaginatedResponse<>(
-            reviewPage.getNumber(),
                 reviewPage.getSize(),
+                reviewPage.getNumber(),
                 reviewPage.getNumberOfElements(),
                 reviewPage.getTotalElements(),
                 reviewPage.getTotalPages(),
-                reviewPage.getContent()
+                reviewPage.getContent().stream()
+                        .map(review -> new ReviewResponse(
+                        review.getId(),
+                        new PostOwner(review.getUser().getFirebaseUid(), review.getUser().getEmail(), review.getUser().getFullName()),
+                        review.getBusiness().getFirebaseUid(),
+                        review.getBusiness().getName(),
+                        review.getScore(),
+                        review.getDescription(),
+                        review.getReviewReply()
+                )).toList()
         );
     }
 

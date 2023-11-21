@@ -2,6 +2,8 @@ package com.example.backend.app.Business;
 
 import com.example.backend.app.CheckIn.CheckIn;
 import com.example.backend.app.Review.Review;
+import com.example.backend.app.Review.ReviewReply;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +17,9 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -85,6 +89,10 @@ public class Business {
 
     @OneToMany(mappedBy = "business")
     private Set<CheckIn> checkIns = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "business")
+    private List<ReviewReply> reviewReplies = new ArrayList<>();
 
     public Business(String email, String name, String phoneNumber, String firebaseUid) {
         this.email = email;

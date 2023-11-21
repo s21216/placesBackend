@@ -19,7 +19,6 @@ public class GlobalControllerExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseEntity<String> handleUnauthorized(RuntimeException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
-
     }
 
     @ExceptionHandler(NotFoundException.class)
