@@ -3,6 +3,7 @@ package com.example.backend.app.User;
 import com.example.backend.app.CheckIn.CheckIn;
 import com.example.backend.app.Review.Review;
 import com.example.backend.app.UserRelationship.UserRelationship;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

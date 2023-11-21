@@ -25,6 +25,9 @@ public class Review {
     private String description;
     private Instant createdAt;
 
+    @OneToOne
+    ReviewReply reviewReply;
+
     @JsonIgnore
     @ManyToOne
     private User user;
@@ -33,8 +36,8 @@ public class Review {
     @ManyToOne
     private Business business;
 
-    public Review(User user, Business business, Integer rating, String description) {
-        this.score = rating;
+    public Review(User user, Business business, Integer score, String description) {
+        this.score = score;
         this.description = description;
         this.user = user;
         this.business = business;

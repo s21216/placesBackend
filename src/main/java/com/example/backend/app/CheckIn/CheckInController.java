@@ -2,7 +2,6 @@ package com.example.backend.app.CheckIn;
 
 import com.example.backend.app.CheckIn.DTO.CheckInRequest;
 import com.example.backend.app.CheckIn.DTO.CheckInResponse;
-import com.example.backend.exceptions.NotFoundException;
 import com.example.backend.helpers.Authentication;
 import com.google.firebase.auth.FirebaseAuthException;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,7 @@ public class CheckInController {
 
     @PostMapping
     CheckInResponse createCheckIn(@RequestHeader("Authorization") String authorizationHeader, @RequestBody CheckInRequest request) throws FirebaseAuthException {
-        CheckIn checkIn = checkInService.createCheckIn(Authentication.extractToken(authorizationHeader), request.businessId(), request.latitude(), request.longitude());
+        CheckIn checkIn = checkInService.createCheckIn(Authentication.extractUid(authorizationHeader), request.businessId(), request.latitude(), request.longitude());
         return new CheckInResponse(
                 checkIn.getNote(),
                 checkIn.getUser().getFirebaseUid(),

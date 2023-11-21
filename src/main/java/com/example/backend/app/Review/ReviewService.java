@@ -21,15 +21,26 @@ public class ReviewService {
     private final BusinessRepository businessRepository;
     private final UserRepository userRepository;
 
-    public Review createReview(String userId, String businessId, Integer rating, String description) {
+    public Review createOrUpdateReview(String userId, String businessId, Integer score, String description) {
         User user = userRepository.findUserByFirebaseUid(userId).orElseThrow();
         Business business = businessRepository.findBusinessByFirebaseUid(businessId).orElseThrow();
-        Review review = new Review(user, business, rating, description);
-        return reviewRepository.save(review);
+        return reviewRepository.findByUserAndBusiness(user, business)
+                .map(rev -> {
+                    rev.setScore(score);
+                    rev.setDescription(description);
+                    return reviewRepository.save(rev);
+                })
+                .orElseGet(() -> reviewRepository.save(new Review(user, business, score, description)));
     }
 
     public Review getReviewById(String reviewId) {
         return reviewRepository.findById(Long.valueOf(reviewId)).orElse(null);
+    }
+
+    public Review getReviewByUserAndBusiness(String userId, String businessId) {
+        User user = userRepository.findUserByFirebaseUid(userId).orElse(null);
+        Business business = businessRepository.findBusinessByFirebaseUid(businessId).orElse(null);
+        return reviewRepository.findByUserAndBusiness(user, business).orElse(null);
     }
 
     public List<Review> getReviewsByUserId(String userId) {
