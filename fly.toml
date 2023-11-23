@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for placesandspaces on 2023-10-28T15:04:40+02:00
+# fly.toml app configuration file generated for placesandspaces on 2023-11-23T15:21:27+01:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -7,6 +7,11 @@ app = "placesandspaces"
 primary_region = "waw"
 
 [build]
+
+[[mounts]]
+  source = "places_volume"
+  destination = "/data"
+  auto_extend_size_threshold = 0
 
 [http_service]
   internal_port = 8080

@@ -6,3 +6,10 @@ spring:
   flyway:
     user: postgres
     password: postgres
+  jpa:
+    properties:
+      hibernate:
+        search:
+          backend:
+            lucene_version: 9.7.0
+            directory.root: ./search-index
