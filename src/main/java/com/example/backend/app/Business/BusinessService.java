@@ -2,8 +2,8 @@ package com.example.backend.app.Business;
 
 import com.example.backend.app.Business.DTO.SearchFilters;
 import com.example.backend.app.Business.DTO.SearchRequest;
-import com.example.backend.app.CheckIn.CheckInRepository;
-import com.example.backend.app.User.UserRepository;
+import com.example.backend.app.Review.Review;
+import com.example.backend.app.Review.ReviewRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -26,6 +26,7 @@ public class BusinessService {
     private final BusinessRepository businessRepository;
 
     private final EntityManager em;
+    private final ReviewRepository reviewRepository;
 
     public Business createBusiness(String email, String name, String phoneNumber, String firebaseToken) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
@@ -38,6 +39,13 @@ public class BusinessService {
         return businessRepository.findBusinessByFirebaseUid(firebaseUid).orElse(null);
     }
 
+    public void recalculateBusinessScore(String businessId) {
+        double score = reviewRepository.findAll().stream().mapToDouble(Review::getScore).average().orElse(0.0);
+        Business business = businessRepository.findBusinessByFirebaseUid(businessId).orElseThrow();
+        business.setScore(score != 0 ? score : null);
+        businessRepository.save(business);
+    }
+
     public List<Business> searchFuzzy(String searchQuery, SearchRequest request) {
         SearchSession searchSession = Search.session(em);
         SearchFilters filters = request.getFilters();
@@ -47,7 +55,7 @@ public class BusinessService {
                             root.add(f.match()
                                     .fields("name", "categories.name")
                                     .matching(searchQuery)
-                                    .fuzzy());
+                                    .fuzzy(1, 3));
                             root.add(f.spatial().within().field("location")
                                     .circle(GeoPoint.of(filters.latitude(), filters.longitude()), filters.distance(), DistanceUnit.KILOMETERS));
 

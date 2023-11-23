@@ -2,10 +2,12 @@ package com.example.backend.app.Review;
 
 import com.example.backend.app.Business.Business;
 import com.example.backend.app.Business.BusinessRepository;
+import com.example.backend.app.Business.BusinessService;
 import com.example.backend.app.Review.DTO.UpdateReviewRequest;
 import com.example.backend.app.User.User;
 import com.example.backend.app.User.UserRepository;
 import com.example.backend.exceptions.UnauthorizedException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,17 +22,22 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final BusinessRepository businessRepository;
     private final UserRepository userRepository;
+    private final BusinessService businessService;
 
+    @Transactional
     public Review createOrUpdateReview(String userId, String businessId, Integer score, String description) {
         User user = userRepository.findUserByFirebaseUid(userId).orElseThrow();
         Business business = businessRepository.findBusinessByFirebaseUid(businessId).orElseThrow();
-        return reviewRepository.findByUserAndBusiness(user, business)
+        Review review = reviewRepository.findByUserAndBusiness(user, business)
                 .map(rev -> {
                     rev.setScore(score);
                     rev.setDescription(description);
                     return reviewRepository.save(rev);
                 })
                 .orElseGet(() -> reviewRepository.save(new Review(user, business, score, description)));
+
+        businessService.recalculateBusinessScore(businessId);
+        return review;
     }
 
     public Review getReviewById(String reviewId) {
@@ -67,6 +74,7 @@ public class ReviewService {
             throw new UnauthorizedException("Unauthorized");
         }
         reviewRepository.deleteById(reviewId);
+        businessService.recalculateBusinessScore(review.getBusiness().getFirebaseUid());
     }
 
 }
