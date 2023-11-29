@@ -1,5 +1,7 @@
 package com.example.backend.app.Business;
 
+import com.example.backend.app.Attribute.Attribute;
+import com.example.backend.app.Category.Category;
 import com.example.backend.app.CheckIn.CheckIn;
 import com.example.backend.app.Review.Review;
 import com.example.backend.app.Review.ReviewReply;
@@ -84,6 +86,15 @@ public class Business {
     @IndexedEmbedded
     private Set<Category> categories = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "business_attribute",
+            joinColumns = @JoinColumn(name = "business_id"),
+            inverseJoinColumns = @JoinColumn(name = "attribute_id")
+    )
+    @IndexedEmbedded
+    private Set<Attribute> attributes = new HashSet<>();
+
     @OneToMany(mappedBy = "business")
     private Set<Review> reviews = new HashSet<>();
 
@@ -100,6 +111,15 @@ public class Business {
         this.firebaseUid = firebaseUid;
         this.phoneNumber = phoneNumber;
         joinDate = LocalDate.now();
+    }
+
+    public void setDetails(String type, String description, String phoneNumber, Set<Category> categories, Cost cost, Set<Attribute> attributes) {
+        setType(type);
+        setDescription(description);
+        setPhoneNumber(phoneNumber);
+        setCategories(categories);
+        setCost(cost);
+        setAttributes(attributes);
     }
 
 }

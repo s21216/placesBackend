@@ -1,15 +1,15 @@
 package com.example.backend.app.Business;
 
 import com.example.backend.app.Auth.Role;
-import com.example.backend.app.Business.DTO.BusinessResponse;
-import com.example.backend.app.Business.DTO.Location;
-import com.example.backend.app.Business.DTO.SearchRequest;
+import com.example.backend.app.Business.DTO.*;
 import com.example.backend.app.Review.DTO.PostOwner;
 import com.example.backend.app.Review.DTO.ReviewResponse;
+import com.example.backend.helpers.Authentication;
 import com.example.backend.helpers.PaginatedRequest;
 import com.example.backend.helpers.PaginatedResponse;
 import com.example.backend.app.Review.Review;
 import com.example.backend.app.Review.ReviewService;
+import com.google.firebase.auth.FirebaseAuthException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,9 +27,9 @@ public class BusinessController {
     private final ReviewService reviewService;
 
     @GetMapping("/{businessId}")
-    BusinessResponse getBusinessById(@PathVariable String businessId) {
+    BusinessDetailsResponse getBusinessById(@PathVariable String businessId) {
         Business business = businessService.findByFirebaseUid(businessId);
-        return new BusinessResponse(
+        return new BusinessDetailsResponse(
                 business.getFirebaseUid(),
                 business.getName(),
                 business.getEmail(),
@@ -49,6 +49,7 @@ public class BusinessController {
                         business.getLocationLongitude(),
                         business.getLocationLatitude()
                 ),
+                business.getAttributes(),
                 business.getJoinDate(),
                 Role.BUSINESS
         );
@@ -75,6 +76,12 @@ public class BusinessController {
                         review.getReviewReply()
                 )).toList()
         );
+    }
+
+    @PutMapping("/details")
+    void updateBusinessDetails(@RequestHeader("Authorization") String authorizationHeader, @RequestBody UpdateBusinessDetailsRequest request) throws FirebaseAuthException {
+        String businessId = Authentication.extractUid(authorizationHeader);
+        businessService.updateBusinessDetails(businessId, request);
     }
 
     @GetMapping("/search/autocomplete")

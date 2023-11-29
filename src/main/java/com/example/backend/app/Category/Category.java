@@ -1,5 +1,6 @@
-package com.example.backend.app.Business;
+package com.example.backend.app.Category;
 
+import com.example.backend.app.Business.Business;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -2,6 +2,8 @@ package com.example.backend.app.Business;
 
 import com.example.backend.app.Business.DTO.SearchFilters;
 import com.example.backend.app.Business.DTO.SearchRequest;
+import com.example.backend.app.Business.DTO.UpdateBusinessDetailsRequest;
+import com.example.backend.app.Category.Category;
 import com.example.backend.app.Review.Review;
 import com.example.backend.app.Review.ReviewRepository;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,6 +46,21 @@ public class BusinessService {
         Business business = businessRepository.findBusinessByFirebaseUid(businessId).orElseThrow();
         business.setScore(score != 0 ? score : null);
         businessRepository.save(business);
+    }
+
+    public void updateBusinessDetails(String businessId, UpdateBusinessDetailsRequest request) {
+        Business business = businessRepository.findBusinessByFirebaseUid(businessId).orElse(null);
+        if (business != null) {
+            business.setDetails(
+                    request.type(),
+                    request.description(),
+                    request.phoneNumber(),
+                    request.categories(),
+                    request.cost(),
+                    request.attributes()
+            );
+            businessRepository.save(business);
+        }
     }
 
     public List<Business> searchFuzzy(String searchQuery, SearchRequest request) {
