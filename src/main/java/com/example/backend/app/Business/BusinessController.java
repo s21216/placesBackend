@@ -84,6 +84,17 @@ public class BusinessController {
         businessService.updateBusinessDetails(businessId, request);
     }
 
+    @PutMapping("/location")
+    void updateBusinessLocation(@RequestHeader("Authorization") String authorizationHeader, @RequestBody UpdateBusinessLocationRequest request) throws FirebaseAuthException {
+        String businessId = Authentication.extractUid(authorizationHeader);
+        businessService.updateBusinessLocation(businessId, request);
+    }
+
+    @GetMapping("{businessId}/location")
+    Location getBusinessLocation(@PathVariable String businessId) {
+        return businessService.getBusinessLocation(businessId);
+    }
+
     @GetMapping("/search/autocomplete")
     List<String> autocomplete(@RequestParam String searchQuery) {
         return businessService.autocomplete(searchQuery);

@@ -1,8 +1,6 @@
 package com.example.backend.app.Business;
 
-import com.example.backend.app.Business.DTO.SearchFilters;
-import com.example.backend.app.Business.DTO.SearchRequest;
-import com.example.backend.app.Business.DTO.UpdateBusinessDetailsRequest;
+import com.example.backend.app.Business.DTO.*;
 import com.example.backend.app.Category.Category;
 import com.example.backend.app.Review.Review;
 import com.example.backend.app.Review.ReviewRepository;
@@ -38,7 +36,7 @@ public class BusinessService {
     }
 
     public Business findByFirebaseUid(String firebaseUid) {
-        return businessRepository.findBusinessByFirebaseUid(firebaseUid).orElse(null);
+        return businessRepository.findBusinessByFirebaseUid(firebaseUid).orElseThrow();
     }
 
     public void recalculateBusinessScore(String businessId) {
@@ -61,6 +59,29 @@ public class BusinessService {
             );
             businessRepository.save(business);
         }
+    }
+
+    public void updateBusinessLocation(String businessId, UpdateBusinessLocationRequest request) {
+        Business business = businessRepository.findBusinessByFirebaseUid(businessId).orElse(null);
+        if (business != null) {
+            business.setAddress(request.address());
+            business.setLocationLatitude(request.latitude());
+            business.setLocationLongitude(request.longitude());
+            businessRepository.save(business);
+        }
+    }
+
+    public Location getBusinessLocation(String businessId) {
+        Business business = businessRepository.findBusinessByFirebaseUid(businessId).orElseThrow();
+        return new Location(
+                business.getCountry(),
+                business.getAddress(),
+                business.getZipCode(),
+                business.getCity(),
+                business.getDistrict(),
+                business.getLocationLatitude(),
+                business.getLocationLongitude()
+        );
     }
 
     public List<Business> searchFuzzy(String searchQuery, SearchRequest request) {
