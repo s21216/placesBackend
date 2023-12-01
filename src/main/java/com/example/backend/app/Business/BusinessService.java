@@ -4,6 +4,7 @@ import com.example.backend.app.Business.DTO.*;
 import com.example.backend.app.Category.Category;
 import com.example.backend.app.Review.Review;
 import com.example.backend.app.Review.ReviewRepository;
+import com.example.backend.exceptions.NotFoundException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -28,15 +29,19 @@ public class BusinessService {
     private final EntityManager em;
     private final ReviewRepository reviewRepository;
 
-    public Business createBusiness(String email, String name, String phoneNumber, String firebaseToken) throws FirebaseAuthException {
+    public Business createBusiness(String email, String name, String type, String phoneNumber, Location location, String firebaseToken) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
-        Business business = new Business(email, name, phoneNumber, decodedToken.getUid());
+        Business business = new Business(email, name, type, phoneNumber, location, decodedToken.getUid());
         businessRepository.save(business);
         return business;
     }
 
     public Business findByFirebaseUid(String firebaseUid) {
-        return businessRepository.findBusinessByFirebaseUid(firebaseUid).orElseThrow();
+        Business business = businessRepository.findBusinessByFirebaseUid(firebaseUid).orElse(null);
+        if (business == null) {
+            throw new NotFoundException("Business not found");
+        }
+        return business;
     }
 
     public void recalculateBusinessScore(String businessId) {

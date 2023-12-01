@@ -1,6 +1,7 @@
 package com.example.backend.app.Business;
 
 import com.example.backend.app.Attribute.Attribute;
+import com.example.backend.app.Business.DTO.Location;
 import com.example.backend.app.Category.Category;
 import com.example.backend.app.CheckIn.CheckIn;
 import com.example.backend.app.Review.Review;
@@ -105,11 +106,15 @@ public class Business {
     @OneToMany(mappedBy = "business")
     private List<ReviewReply> reviewReplies = new ArrayList<>();
 
-    public Business(String email, String name, String phoneNumber, String firebaseUid) {
+    public Business(String email, String name, String type, String phoneNumber, Location location, String firebaseUid) {
         this.email = email;
         this.name = name;
+        this.type = type;
         this.firebaseUid = firebaseUid;
         this.phoneNumber = phoneNumber;
+        this.address = location.address();
+        this.locationLatitude = location.latitude();
+        this.locationLongitude = location.longitude();
         joinDate = LocalDate.now();
     }
 
