@@ -1,6 +1,7 @@
 package com.example.backend.app.Review;
 
 import com.example.backend.app.Business.Business;
+import com.example.backend.app.ReviewReply.ReviewReply;
 import com.example.backend.app.User.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -25,7 +26,7 @@ public class Review {
     private String description;
     private Instant createdAt;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true)
     ReviewReply reviewReply;
 
     @JsonIgnore

@@ -3,6 +3,9 @@ package com.example.backend.app.Review;
 import com.example.backend.app.Review.DTO.CreateReviewRequest;
 import com.example.backend.app.Review.DTO.PostOwner;
 import com.example.backend.app.Review.DTO.ReviewResponse;
+import com.example.backend.app.ReviewReply.DTO.ReviewReplyRequest;
+import com.example.backend.app.ReviewReply.ReviewReply;
+import com.example.backend.app.ReviewReply.ReviewReplyService;
 import com.example.backend.exceptions.NotFoundException;
 import com.example.backend.helpers.Authentication;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
+    private final ReviewReplyService reviewReplyService;
 
     @PutMapping
     ReviewResponse createOrUpdateReview(@RequestHeader("Authorization") String authorizationHeader, @RequestBody CreateReviewRequest request) throws FirebaseAuthException {
@@ -30,7 +34,7 @@ public class ReviewController {
     }
 
     @GetMapping("{reviewId}")
-    ReviewResponse getReview(@PathVariable String reviewId) {
+    ReviewResponse getReview(@PathVariable Long reviewId) {
         Review review = reviewService.getReviewById(reviewId);
         return new ReviewResponse(
                 review.getId(),
@@ -44,7 +48,7 @@ public class ReviewController {
     }
 
     @GetMapping
-    ReviewResponse getReview(@RequestParam String userId, @RequestParam String businessId) {
+    ReviewResponse getReviewByUserAndBusiness(@RequestParam String userId, @RequestParam String businessId) {
         Review review = reviewService.getReviewByUserAndBusiness(userId, businessId);
         if (review == null) {
             throw new NotFoundException("Review doesn't exist");
@@ -65,4 +69,19 @@ public class ReviewController {
         reviewService.deleteReview(Authentication.extractUid(authorizationHeader), reviewId);
     }
 
+    @GetMapping("{reviewId}/reply")
+    ReviewReply getReviewReply(@PathVariable Long reviewId) {
+        Review review = reviewService.getReviewById(reviewId);
+        return review.getReviewReply();
+    }
+
+    @PutMapping("{reviewId}/reply")
+    ReviewReply createOrUpdateReviewReply(@RequestHeader("Authorization") String authorizationHeader, @PathVariable Long reviewId, @RequestBody ReviewReplyRequest request) throws FirebaseAuthException {
+        return reviewReplyService.createOrUpdateReviewReply(Authentication.extractUid(authorizationHeader), reviewId, request.description());
+    }
+
+    @DeleteMapping("{reviewId}/reply")
+    void deleteReviewReply(@RequestHeader("Authorization") String authorizationHeader, @PathVariable Long reviewId) throws FirebaseAuthException {
+        reviewReplyService.removeReviewReply(Authentication.extractUid(authorizationHeader), reviewId);
+    }
 }

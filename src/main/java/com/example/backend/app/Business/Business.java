@@ -5,7 +5,7 @@ import com.example.backend.app.Business.DTO.Location;
 import com.example.backend.app.Category.Category;
 import com.example.backend.app.CheckIn.CheckIn;
 import com.example.backend.app.Review.Review;
-import com.example.backend.app.Review.ReviewReply;
+import com.example.backend.app.ReviewReply.ReviewReply;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -96,10 +96,10 @@ public class Business {
     @IndexedEmbedded
     private Set<Attribute> attributes = new HashSet<>();
 
-    @OneToMany(mappedBy = "business")
+    @OneToMany(mappedBy = "business", cascade = {CascadeType.REMOVE})
     private Set<Review> reviews = new HashSet<>();
 
-    @OneToMany(mappedBy = "business")
+    @OneToMany(mappedBy = "business", cascade = {CascadeType.REMOVE})
     private Set<CheckIn> checkIns = new HashSet<>();
 
     @JsonIgnore

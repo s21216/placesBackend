@@ -14,8 +14,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -57,7 +59,7 @@ public class BusinessController {
 
     @PostMapping("{businessId}/reviews")
     PaginatedResponse<ReviewResponse> getReviews(@PathVariable String businessId, @RequestBody PaginatedRequest request) {
-        Pageable pageable = PageRequest.of(request.getPageNumber(), request.getPageSize());
+        Pageable pageable = PageRequest.of(request.getPageNumber(), request.getPageSize(), Sort.by("createdAt").descending());
         Page<Review> reviewPage = reviewService.getReviewsByBusinessId(businessId, pageable);
         return new PaginatedResponse<>(
                 reviewPage.getSize(),

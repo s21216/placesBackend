@@ -40,8 +40,8 @@ public class ReviewService {
         return review;
     }
 
-    public Review getReviewById(String reviewId) {
-        return reviewRepository.findById(Long.valueOf(reviewId)).orElse(null);
+    public Review getReviewById(Long reviewId) {
+        return reviewRepository.findById(reviewId).orElseThrow();
     }
 
     public Review getReviewByUserAndBusiness(String userId, String businessId) {

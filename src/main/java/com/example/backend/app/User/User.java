@@ -27,10 +27,10 @@ public class User {
     private String profilePictureUrl;
     private LocalDate joinDate;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE})
     private List<CheckIn> checkIns;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE})
     private List<Review> reviews;
 
     @OneToMany

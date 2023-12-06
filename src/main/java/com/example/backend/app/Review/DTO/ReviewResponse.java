@@ -1,6 +1,6 @@
 package com.example.backend.app.Review.DTO;
 
-import com.example.backend.app.Review.ReviewReply;
+import com.example.backend.app.ReviewReply.ReviewReply;
 
 public record ReviewResponse (
         Long id,
