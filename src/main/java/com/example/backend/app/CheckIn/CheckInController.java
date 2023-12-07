@@ -27,11 +27,7 @@ public class CheckInController {
     @GetMapping
     Boolean getCheckInExists(@RequestParam String userId, @RequestParam String businessId) {
         CheckIn checkIn = checkInService.getCheckInState(userId, businessId);
-        if (checkIn == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return checkIn != null;
     };
 
 }

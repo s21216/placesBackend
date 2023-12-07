@@ -1,12 +1,18 @@
 package com.example.backend.app.User;
 
+import com.example.backend.app.Business.BusinessService;
 import com.example.backend.app.CheckIn.CheckIn;
-import com.example.backend.app.CheckIn.CheckInService;
-import com.example.backend.app.CheckIn.DTO.CheckInResponse;
 import com.example.backend.app.Review.Review;
-import com.example.backend.app.Review.ReviewRepository;
 import com.example.backend.app.Review.ReviewService;
+import com.example.backend.app.User.DTO.UserInfo;
+import com.example.backend.app.User.DTO.VisitedBusiness;
+import com.example.backend.helpers.PaginatedRequest;
+import com.example.backend.helpers.PaginatedResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,19 +23,29 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final CheckInService checkInService;
     private final ReviewService reviewService;
 
-    @GetMapping("{userId}/checkIns")
-    List<CheckInResponse> getVisited(@PathVariable String userId) {
-        List<CheckIn> checkIns = checkInService.getVisitedByUser(userId);
-        return checkIns.stream().map(checkIn -> new CheckInResponse(
-                        checkIn.getNote(),
-                        checkIn.getUser().getFirebaseUid(),
-                        checkIn.getBusiness().getFirebaseUid(),
-                        checkIn.getCreatedAt()
-                )
-        ).toList();
+    @PostMapping("{userId}/visited")
+    PaginatedResponse<VisitedBusiness> getVisitedBusinesses(@PathVariable String userId, @RequestBody PaginatedRequest request) {
+        Pageable pageable = PageRequest.of(request.getPageNumber(), request.getPageSize(), Sort.by("createdAt").descending());
+        Page<CheckIn> checkInPage = userService.getVisitedByUser(userId, pageable);
+        return new PaginatedResponse<>(
+                checkInPage.getSize(),
+                checkInPage.getNumber(),
+                checkInPage.getNumberOfElements(),
+                checkInPage.getTotalElements(),
+                checkInPage.getTotalPages(),
+                checkInPage.getContent().stream()
+                        .map(CheckIn::getBusiness)
+                        .map(business -> new VisitedBusiness(
+                                business.getName(),
+                                business.getFirebaseUid(),
+                                business.getAddress(),
+                                business.getType(),
+                                business.getCost(),
+                                business.getScore()
+                        )).toList()
+        );
     }
 
     @GetMapping("{userId}/reviews")
@@ -37,4 +53,13 @@ public class UserController {
         return reviewService.getReviewsByUserId(userId);
     }
 
+    @GetMapping("{userId}")
+    UserInfo getInfo(@PathVariable String userId) {
+        User user = userService.findByFirebaseUid(userId);
+        return new UserInfo(
+                user.getUsername(),
+                user.getCheckIns().size(),
+                user.getReviews().size()
+        );
+    }
 }

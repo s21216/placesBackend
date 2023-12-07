@@ -1,5 +1,6 @@
 package com.example.backend.app.Business;
 
+import com.example.backend.app.Auth.Role;
 import com.example.backend.app.Business.DTO.*;
 import com.example.backend.app.Category.Category;
 import com.example.backend.app.Review.Review;

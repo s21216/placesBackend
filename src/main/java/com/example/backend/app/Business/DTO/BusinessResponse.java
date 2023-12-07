@@ -15,7 +15,6 @@ public record BusinessResponse(
         String profilePictureUrl,
         String description,
         String type,
-
         Set<Category> categories,
         Cost cost,
         Double score,

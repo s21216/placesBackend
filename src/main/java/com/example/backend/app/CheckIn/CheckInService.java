@@ -13,8 +13,6 @@ import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class CheckInService {
@@ -42,10 +40,7 @@ public class CheckInService {
         return checkInRepository.save(checkIn);
     }
 
-    public List<CheckIn> getVisitedByUser(String userId) {
-        User user = userRepository.findUserByFirebaseUid(userId).orElseThrow();
-        return checkInRepository.findCheckInsByUser(user);
-    }
+
 
     public CheckIn getCheckInState(String userId, String businessId) {
         User user = userRepository.findUserByFirebaseUid(userId).orElseThrow();
