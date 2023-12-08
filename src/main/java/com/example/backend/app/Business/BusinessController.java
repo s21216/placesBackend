@@ -4,6 +4,7 @@ import com.example.backend.app.Auth.Role;
 import com.example.backend.app.Business.DTO.*;
 import com.example.backend.app.Review.DTO.PostOwner;
 import com.example.backend.app.Review.DTO.ReviewResponse;
+import com.example.backend.exceptions.NotFoundException;
 import com.example.backend.helpers.Authentication;
 import com.example.backend.helpers.PaginatedRequest;
 import com.example.backend.helpers.PaginatedResponse;
@@ -30,6 +31,9 @@ public class BusinessController {
     @GetMapping("/{businessId}")
     BusinessDetailsResponse getBusinessById(@PathVariable String businessId) {
         Business business = businessService.findByFirebaseUid(businessId);
+        if (business == null) {
+            throw new NotFoundException("Business not found");
+        }
         return new BusinessDetailsResponse(
                 business.getFirebaseUid(),
                 business.getName(),

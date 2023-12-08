@@ -1,6 +1,5 @@
 package com.example.backend.app.Business;
 
-import com.example.backend.app.Auth.Role;
 import com.example.backend.app.Business.DTO.*;
 import com.example.backend.app.Category.Category;
 import com.example.backend.app.Review.Review;
@@ -38,11 +37,7 @@ public class BusinessService {
     }
 
     public Business findByFirebaseUid(String firebaseUid) {
-        Business business = businessRepository.findBusinessByFirebaseUid(firebaseUid).orElse(null);
-        if (business == null) {
-            throw new NotFoundException("Business not found");
-        }
-        return business;
+        return businessRepository.findBusinessByFirebaseUid(firebaseUid).orElse(null);
     }
 
     public void recalculateBusinessScore(String businessId) {
@@ -88,6 +83,15 @@ public class BusinessService {
                 business.getLocationLatitude(),
                 business.getLocationLongitude()
         );
+    }
+
+    public Business changeEmail(String businessId, String email) {
+        Business business = businessRepository.findBusinessByFirebaseUid(businessId).orElse(null);
+        if (business == null) {
+            throw new NotFoundException("Business not found");
+        }
+        business.setEmail(email);
+        return businessRepository.save(business);
     }
 
     public List<Business> searchFuzzy(String searchQuery, SearchRequest request) {

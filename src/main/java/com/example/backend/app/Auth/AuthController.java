@@ -1,13 +1,16 @@
 package com.example.backend.app.Auth;
 
 import com.example.backend.app.Auth.DTO.AuthResponse;
+import com.example.backend.app.Auth.DTO.ChangeEmailRequest;
 import com.example.backend.app.Business.Business;
 import com.example.backend.app.Auth.DTO.BusinessSignUpRequest;
 import com.example.backend.app.Business.BusinessService;
 import com.example.backend.app.User.User;
 import com.example.backend.app.Auth.DTO.UserSignUpRequest;
+import com.example.backend.app.User.UserRepository;
 import com.example.backend.app.User.UserService;
 import com.example.backend.exceptions.AccountNotFoundException;
+import com.example.backend.helpers.Authentication;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -59,5 +62,19 @@ public class AuthController {
                 firebaseToken
         );
         return new AuthResponse(business.getEmail(), business.getFirebaseUid(), Role.BUSINESS);
+    }
+
+    @PostMapping("business/email")
+    AuthResponse updateBusinessPassword(@RequestHeader("Authorization") String authorizaionHeader,
+                                @RequestBody ChangeEmailRequest request) throws FirebaseAuthException {
+        Business business = businessService.changeEmail(Authentication.extractUid(authorizaionHeader), request.email());
+        return new AuthResponse(business.getEmail(), business.getFirebaseUid(), Role.BUSINESS);
+    }
+
+    @PostMapping("user/email")
+    AuthResponse updateUserPassword(@RequestHeader("Authorization") String authorizaionHeader,
+                                @RequestBody ChangeEmailRequest request) throws FirebaseAuthException {
+        User user = userService.changeEmail(Authentication.extractUid(authorizaionHeader), request.email());
+        return new AuthResponse(user.getEmail(), user.getFirebaseUid(), Role.USER);
     }
 }

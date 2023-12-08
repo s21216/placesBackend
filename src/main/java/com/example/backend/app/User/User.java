@@ -6,6 +6,7 @@ import com.example.backend.app.UserRelationship.UserRelationship;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Getter
+@Setter
 @Table(name="\"User\"")
 public class User {
     @Id
