@@ -51,6 +51,8 @@ public class BusinessController {
                         business.getLocationLatitude()
                 ),
                 business.getAttributes(),
+                business.getCheckIns().size(),
+                business.getReviews().size(),
                 business.getJoinDate(),
                 Role.BUSINESS
         );

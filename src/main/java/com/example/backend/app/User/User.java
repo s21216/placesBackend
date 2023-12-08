@@ -3,13 +3,14 @@ package com.example.backend.app.User;
 import com.example.backend.app.CheckIn.CheckIn;
 import com.example.backend.app.Review.Review;
 import com.example.backend.app.UserRelationship.UserRelationship;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @Entity
@@ -28,10 +29,10 @@ public class User {
     private LocalDate joinDate;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE})
-    private List<CheckIn> checkIns;
+    private Set<CheckIn> checkIns = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE})
-    private List<Review> reviews;
+    private Set<Review> reviews = new HashSet<>();
 
     @OneToMany
     private List<UserRelationship> followers;

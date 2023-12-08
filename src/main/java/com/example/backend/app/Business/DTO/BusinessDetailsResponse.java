@@ -20,6 +20,8 @@ public record BusinessDetailsResponse(
         Double score,
         Location location,
         Set<Attribute> attributes,
+        Integer numberOfVisitors,
+        Integer numberOfReviews,
         LocalDate joinDate,
         Role role) {
 }
