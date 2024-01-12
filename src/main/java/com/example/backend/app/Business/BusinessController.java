@@ -46,11 +46,7 @@ public class BusinessController {
                 business.getCost(),
                 business.getScore(),
                 new Location(
-                        business.getCountry(),
                         business.getAddress(),
-                        business.getZipCode(),
-                        business.getCity(),
-                        business.getDistrict(),
                         business.getLocationLongitude(),
                         business.getLocationLatitude()
                 ),
@@ -122,11 +118,7 @@ public class BusinessController {
                         business.getCost(),
                         business.getScore(),
                         new Location(
-                                business.getCountry(),
                                 business.getAddress(),
-                                business.getZipCode(),
-                                business.getCity(),
-                                business.getDistrict(),
                                 business.getLocationLatitude(),
                                 business.getLocationLongitude()
                         ),

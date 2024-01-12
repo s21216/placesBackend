@@ -5,6 +5,8 @@ DROP TABLE IF EXISTS "user" CASCADE;
 DROP TABLE IF EXISTS check_in CASCADE;
 DROP TABLE IF EXISTS review CASCADE;
 DROP TABLE IF EXISTS review_reply CASCADE;
+DROP TABLE IF EXISTS attribute CASCADE;
+DROP TABLE IF EXISTS business_attribute CASCADE;
 
 CREATE TABLE category
 (
@@ -29,10 +31,6 @@ CREATE TABLE business
     email               VARCHAR(255),
     phone_number        VARCHAR(255),
     address             VARCHAR(255),
-    zip_code            VARCHAR(255),
-    district            VARCHAR(255),
-    city                VARCHAR(255),
-    country             VARCHAR(255),
     description         VARCHAR(255),
     type                VARCHAR(255),
     cost                VARCHAR(255),

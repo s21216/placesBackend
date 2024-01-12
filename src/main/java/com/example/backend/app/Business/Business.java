@@ -50,14 +50,6 @@ public class Business {
 
     private String address;
 
-    private String zipCode;
-
-    private String district;
-
-    private String city;
-
-    private String country;
-
     @FullTextField
     private String description;
 

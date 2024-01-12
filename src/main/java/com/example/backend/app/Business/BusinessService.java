@@ -75,11 +75,7 @@ public class BusinessService {
     public Location getBusinessLocation(String businessId) {
         Business business = businessRepository.findBusinessByFirebaseUid(businessId).orElseThrow();
         return new Location(
-                business.getCountry(),
                 business.getAddress(),
-                business.getZipCode(),
-                business.getCity(),
-                business.getDistrict(),
                 business.getLocationLatitude(),
                 business.getLocationLongitude()
         );

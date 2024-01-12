@@ -38,7 +38,11 @@ public class ReviewController {
         Review review = reviewService.getReviewById(reviewId);
         return new ReviewResponse(
                 review.getId(),
-                new PostOwner(review.getUser().getFirebaseUid(), review.getUser().getEmail(), review.getUser().getFullName()),
+                new PostOwner(
+                        review.getUser().getFirebaseUid(),
+                        review.getUser().getEmail(),
+                        review.getUser().getFullName()
+                ),
                 review.getBusiness().getFirebaseUid(),
                 review.getBusiness().getName(),
                 review.getScore(),
@@ -55,7 +59,11 @@ public class ReviewController {
         }
         return new ReviewResponse(
                 review.getId(),
-                new PostOwner(review.getUser().getFirebaseUid(), review.getUser().getEmail(), review.getUser().getFullName()),
+                new PostOwner(
+                        review.getUser().getFirebaseUid(),
+                        review.getUser().getEmail(),
+                        review.getUser().getFullName()
+                ),
                 review.getBusiness().getFirebaseUid(),
                 review.getBusiness().getName(),
                 review.getScore(),
