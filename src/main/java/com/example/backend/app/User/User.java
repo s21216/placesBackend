@@ -2,7 +2,6 @@ package com.example.backend.app.User;
 
 import com.example.backend.app.CheckIn.CheckIn;
 import com.example.backend.app.Review.Review;
-import com.example.backend.app.UserRelationship.UserRelationship;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,6 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -35,12 +33,6 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE})
     private Set<Review> reviews = new HashSet<>();
-
-    @OneToMany
-    private List<UserRelationship> followers;
-
-    @OneToMany
-    private List<UserRelationship> following;
 
     public User(String email, String username, String fullName, String firebaseUid) {
         this.email = email;

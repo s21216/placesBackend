@@ -9,7 +9,18 @@ spring:
   jpa:
     properties:
       hibernate:
+        format_sql: true
         search:
           backend:
             lucene_version: 9.7.0
             directory.root: ./search-index
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
